@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block title %}ShoeBox | Online Store{% endblock %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<style>
+    body, .carousel {
+        padding: 0;
+        margin: 0;
+    }
+    #banner {
+        border-radius: 0;
+        font-size: 15px;
+        text-align: center;
+        padding: 6px 0;
+        margin: 0;
+    }
+    .product-card {
+        border: none;
+        color: black;
+        text-decoration: none;
+    }
+    .product-card:hover {
+        border: none;
+        color: black;
+        text-decoration: none;
+    }
+    .centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .home {
+        width: 96%;
+    }
+    .card {
+        border: none;
+        color: black;
+        text-decoration: none;
+        padding: 0 2px;
+    }
+
+    .card:hover {
+        color: black;
+    }
+
+    .card-body {
+        padding-left: 5px;
+    }
+
+    .card-text span {
+        color: grey;
+    }
+    
+    @media (min-width: 1400px){
+        .home {
+            width: 95%;
+        }
+    }
+</style>
+
+<div class="alert alert-dark" id="banner" role="alert">
+    New Year Sales  <br>Use code NEWYEAR50 for $50 off total bill
+</div>
+
+<div class="container-fluid carousel">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/public/images/nike4.jpg" class="d-block w-100 img-fluid" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="/public/images/nike5.jpg" class="d-block w-100 img-fluid" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="/public/images/adidas.jpg" class="d-block w-100 img-fluid" alt="...">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<div class="container-fluid home mb-5">
+    <div class="container-fluid mt-5 pt-3">
+        <h1 style="font-family: 'Source Sans Pro', sans-serif;">Top Pick</h1>
+        <div class="container-fluid mt-3 px-0">
+            <div class="row">
+                {% for i in products %}
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <a href="/product/{{ i.get_id() }}" class="card mt-4">
+                            <img src="{{ i.get_image() }}" class="card-img-top" alt="shoe image">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ i.get_name() }}</h5>
+                                <p class="card-subtitle text-muted my-2">{{ i.get_category() }}</p>
+                                <h6 class="card-text mt-3">S${{ i.get_price() }}</h6>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-5 pt-3">
+        <h1 style="font-family: 'Source Sans Pro' , sans-serif;">Shop for</h1>
+        <div class="container-fluid mt-3 px-0">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <a href="/men" class="product-card">
+                        <div class="card mt-4">
+                            <img src="/public/images/mens.jpg" class="card-img-top" alt="shoe image">
+                            <p class="centered" style="color: white; font-size: 1.5em;text-decoration: none;"><b>Men</b></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="/women" class="product-card">
+                        <div class="card mt-4">
+                            <img src="/public/images/Women.jpg" class="card-img-top" alt="shoe image">
+                            <p class="centered" style="color: white; font-size: 1.5em;text-decoration: none;"><b>Women</b></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <a href="/accessories" class="product-card">
+                        <div class="card mt-4">
+                            <img src="/public/images/accessories.jpg" class="card-img-top" alt="shoe image">
+                            <p class="centered" style="color: white; font-size: 1.5em;text-decoration: none;"><b>Accessories</b></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

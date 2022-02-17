@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+{% endblock %}
+
+{% block title %}ShoeBox | Manage Address{% endblock %}
+
+{% block content %}
+<style>
+    p a {
+        color: black;
+        text-decoration: none;
+    }
+    p a:hover {
+        color: black;
+        text-decoration: underline;
+    }
+    .col-form-label {
+        text-align: right;
+    }
+    #manageAccountForm .form-control {
+        width: 65%;
+    }
+    .btn {
+        padding: 6px 0;
+        width: 22%;
+    }
+</style>
+<div class="container-fluid" style="width: 93%;">
+    <div class="row mt-5">
+        {% include 'includes/account_nav.html' %}
+
+        <div class="col-9">
+            <div class="container-fluid">
+                <h4>Manage Address</h4>
+                <p>View and manage your profile here</p>
+
+                <form class="mt-5 ms-5" method="post" id="manageAccountForm">
+                    <div class="mb-3 row">
+                        <label for="email" class="col-2 col-form-label">First name</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control shadow-none" name="firstName" id="firstName" value="{{ profile.get_firstName() }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="email" class="col-2 col-form-label">Last name</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control shadow-none" name="lastName" id="lastName" value="{{ profile.get_lastName() }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="email" class="col-2 col-form-label">Email address</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control shadow-none shadow-none" name="email" id="email" value="{{ profile.get_email() }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="email" class="col-2 col-form-label">Password</label>
+                        <div class="col-10 my-auto">
+                            <a href="/account/change-pwd">Change password</a>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-10 my-auto">
+                            {% if success %}
+                                <button type="submit" class="btn btn-success shadow-none" id="submitBtn"><i class="fas fa-check"></i></button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary shadow-none" id="submitBtn" disabled>Update details</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/public/js/account.js"></script>
+{% endblock %}

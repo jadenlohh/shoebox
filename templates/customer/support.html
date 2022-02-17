@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block title %}ShoeBox | Help Centre{% endblock %}
+
+{% block links %}
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@700&display=swap" rel="stylesheet">
+
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/extensions/custom-view/bootstrap-table-custom-view.js"></script>
+{% endblock %}
+
+{% block content %}
+<style>
+    .supportContent {
+        width: 92%;
+    }
+    .categoryBox {
+        border: 1px solid black;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: 4em 0;
+        text-align: center;
+    }
+    .search {
+        float: right !important;
+        width: 25%;
+    }
+    .categories a {
+        color: black;
+        text-decoration: none;
+    }
+    td {
+        padding: 20px !important;
+    }
+    .contactInfo {
+        margin-top: 10%;
+    }
+</style>
+<div class="container-fluid mt-5 supportContent">
+    <div class="row mb-5">
+        {% if category == 'orders&delivery' %}
+            <h2 style="font-family: 'Source Sans Pro', sans-serif;">Orders and Delivery</h2>
+
+        {% elif category == 'promotion&vouchers' %}
+            <h2 style="font-family: 'Source Sans Pro', sans-serif;">Promotion and Vouchers</h2>
+
+        {% elif category == 'return&refunds' %}
+            <h2 style="font-family: 'Source Sans Pro', sans-serif;">Return and Refunds</h2>
+
+        {% else %}
+            <h2 style="font-family: 'Source Sans Pro', sans-serif;">How can we help you?</h2>
+
+            <div class="col-md-4 mt-5 categories">
+                <a href="support/orders&delivery">
+                    <div class="categoryBox">
+                        <img src="https://img.icons8.com/ios/50/000000/delivery--v1.png"/><br>
+                        Orders and Delivery
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 mt-5 categories">
+                <a href="support/promotion&vouchers">
+                    <div class="categoryBox">
+                        <img src="https://img.icons8.com/ios/50/000000/discount--v1.png"/><br>
+                        Promotion and Vouchers
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 mt-5 categories">
+                <a href="support/return&refunds">
+                    <div class="categoryBox">
+                        <img src="https://img.icons8.com/external-victoruler-outline-victoruler/50/000000/external-return-box-logistics-victoruler-outline-victoruler.png"/><br>
+                        Return and Refunds
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+
+        {% if category %}
+            <table id="table" data-custom-view="customViewFormatter" data-show-custom-view="true" data-search="true">
+                <thead>
+                    <th data-field="Q">Question</th>
+                    <th data-field="A">Answer</th>
+                </thead>
+            </table>
+        
+            <template id="questions">
+                <div class="col-12 mt-3 mb-2">
+                    <h5>%QUESTION%</h5>
+        
+                    <div class="mt-3 answer">
+                        <p>%ANSWER%</p>
+                    </div>
+                </div>
+            </template>
+        {% endif %}
+    </div>
+
+    <div class="row contactInfo">
+        <h2 style="font-family: 'Source Sans Pro', sans-serif;">Contact Us</h2>
+        <div class="col-md-6">
+            <p>Still need more assistance? Fred not, we're always here for you :)</p>
+
+            <table class="table table-bordered mt-5">
+                <tbody>
+                    <tr>
+                        <td>Email</td>
+                        <td><a href="mailto:support@shoebox.com">support@shoebox.com</a></td>
+                    </tr>
+
+                    <tr>
+                        <td>Telephone</td>
+                        <td>1-888-377-8245</td>
+                    </tr>
+
+                    <tr>
+                        <td>Address</td>
+                        <td>180 Ang Mo Kio Avenue 8 Singapore 569830</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4 class="mt-5">Operating Hours</h4>
+            <p>Monday to Friday: 10:00am to 8:00pm</p>
+            <p>(Closed on Saturday, Sunday & Public Holidays)</p>
+        </div>
+
+        <div class="col-md-6">
+            <div id='map' class="mx-auto mt-4" style='width: 100%;height: 45em;'></div>
+        </div>
+    </div>
+</div>
+
+<script src="/public/js/support.js"></script>
+{% endblock %}

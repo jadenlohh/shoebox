@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<link rel="stylesheet" href="/public/css/customer/product-info.css">
+{% endblock %}
+
+{% block title %}ShoeBox | {{ product.get_name() }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid content my-4">
+    <div class="alert alert-success ms-2" id="alert" role="alert">
+        <i class="fas fa-check"></i>&nbsp;&nbsp;Successfully added item to cart!
+    </div>
+
+    <nav aria-label="breadcrumb" class="mb-5 ms-3" style="font-size: 15px;">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/men">Men</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.get_name() }}</li>
+        </ol>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ product.get_image() }}" class="card-img-top" alt="shoe image" width="50%">
+            </div>
+
+            <div class="col-md-6 px-4">
+                <div class="productDetails">
+                    <h2>{{ product.get_name() }}</h2>
+
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            <p>{{ product.get_category() }}</p>
+                        </div>
+
+                        <div class="col-2">
+                            <p>S${{ product.get_price() }}</p>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="productID" value="{{ product.get_id() }}">
+
+                    <div class="my-5">
+                        <h5>Description</h5>
+                        <p>{{ product.get_description() }}</p>
+                    </div>
+
+                    <div class="options">
+                            {% if session['userid'] %}
+                                <input type="hidden" name="loggedIn" id="loggedIn" value="true">
+                                <button class="btn btn-primary shadow-none" id="addToCart" onclick="addToCart()">
+                                    Add to Cart
+                                </button>
+
+                            {% else %}
+                                <input type="hidden" name="loggedIn" id="loggedIn" value="false">
+                                <button class="btn btn-primary shadow-none" id="addToCart" onclick="redirectToLogin()">
+                                    Add to Cart
+                                </button>
+                            {% endif %}
+    
+                        <div class="mt-2">
+                            <button class="btn btn-outline-primary shadow-none" onclick="buyNow()">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-5">
+        <h4>You might also like</h4>
+
+        <div class="row">
+            {% for i in recommanded_products %}
+                <div class="col-lg-3 col-md-6">
+                    <a href="/product/{{ i.get_id() }}" class="card mt-4">
+                        <img src="{{ i.get_image() }}" class="card-img-top" alt="shoe image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ i.get_name() }}</h5>
+                            <p class="card-subtitle text-muted my-2">{{ i.get_category() }}</p>
+                            <h6 class="card-text mt-3">S${{ i.get_price() }}</h6>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script src="/public/js/product-info.js"></script>
+{% endblock %}

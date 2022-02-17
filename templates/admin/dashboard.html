@@ -1,0 +1,88 @@
+{% extends 'admin_base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<link rel="stylesheet" href="/public/css/admin/dashboard.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}ShoeBox Admin | Dashboard{% endblock %}
+
+{% block content %}
+<h3>Dashboard</h3>
+<p>Sales overview and summary</p>
+
+<div class="statistics mt-5">
+    <div class="statistics-card" style="border-left: 5px solid #00b386;">
+        <div class="row my-4">
+            <div class="col-9">
+                <p>{{ totalUsers }}<br>Total Customers</p>
+            </div>
+            <div class="col-3 my-auto">
+                <i class="fas fa-users" id="user" style="color: #00b386;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="statistics-card" style="border-left: 5px solid purple;">
+        <div class="row my-4">
+            <div class="col-9">
+                <p>{{ totalOrders }}<br>Orders Placed</p>
+            </div>
+            <div class="col-3 my-auto">
+                <i class="fas fa-store-alt" style="color: purple;"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="statistics-card" style="border-left: 5px solid #ffcc00;">
+        <div class="row my-4">
+            <div class="col-9">
+                <p>S$ {{ totalSales }}.00<br>Sales Generated</p>
+            </div>
+            <div class="col-3 my-auto">
+                <i class="fas fa-dollar-sign" style="color: #ffcc00;"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="recent-orders mt-5 me-3 px-3">
+    <h4 class="mt-4 ms-2" style="font-family: 'Source Sans Pro', sans-serif;">Recent Orders</h4>
+    
+    <table class="table mt-3 mb-4">
+        <tbody>
+            {% for i in orders %}
+                <tr>
+                    <td>#{{ i['order'].get_id() }}</td>
+                    <td>{{ i['order'].get_customerName() }}</td>
+                    <td>{{ ', '.join(i['items']) }}</td>
+                    <td>${{ i['order'].get_amount() }}.00</td>
+                    <td>{{ i['order'].get_purchaseDate().split(' ')[0] }}</td>
+                    <td>
+                        {% if i['order'].get_status() == 'Cancelled' %}
+                            <p class="order-status" style="background-color: #ffcccc;color: red;">{{ i['order'].get_status() }}</p>
+
+                        {% elif i['order'].get_status() == 'Paid' %}
+                            <p class="order-status" style="background-color: #ccffcc;color: green;">{{ i['order'].get_status() }}</p>
+                        {% elif i['order'].get_status() == 'To Ship' %}
+                            <p class="order-status" style="background-color: #ffffcc;color: #e6b800;">{{ i['order'].get_status() }}</p>
+                        {% endif %}
+                    </td>
+                    
+                    <td class="dropdown">
+                        <button class="btn dropdown-toggle shadow-none" type="button" id="actions" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="actions">
+                            <li><a class="dropdown-item" href="/admin/orders/update/{{ i['order'].get_id() }}">View Order</a></li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

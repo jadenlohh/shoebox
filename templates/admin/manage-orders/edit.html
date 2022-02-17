@@ -1,0 +1,175 @@
+{% extends 'admin_base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% endblock %}
+
+{% block title %}ShoeBox Admin | Update Orders{% endblock %}
+
+
+{% block content %}
+<style>
+    .box {
+        border: 1px solid grey;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border-radius: 12px;
+        padding: 1.5em;
+    }
+    .alert {
+        animation-name: showAlert;
+        animation-duration: 300ms;
+        left: 42%;
+        position: fixed;
+        top: 5px;
+    }
+    @keyframes showAlert {
+        from {
+            transform: translateY(-100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+    #submitBtn {
+        padding: 12px;
+        width: 100%;
+    }
+</style>
+
+{% if success %}
+    <div class="alert alert-success" id="alert" role="alert">
+        <i class="fas fa-check-circle"></i>&nbsp;&nbsp;Order status has been updated
+    </div>
+
+    <script>
+        window.addEventListener("load", function() {
+            setTimeout(() => {
+                document.getElementById('alert').style.display = 'none';
+            }, 3000)
+        })
+    </script>
+{% endif %}
+
+<div class="row mb-5">
+    <div class="col-9">
+        <h3>Order details</h3>
+    </div>
+
+    <div class="col-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/orders">Orders</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Update Order</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form action="/admin/orders/update/{{ order.get_id() }}" method="post" class="editParticulars">
+    <div class="row">
+        <div class="col-10">
+            <h5>Order ID: <b>{{ order.get_id() }}</b></h5>
+        </div> 
+        <div class="col-2">
+            <h5>Status: <b>{{ order.get_status() }}</b></h5>
+        </div>
+    </div>
+
+
+    <div class="col-12">
+        <div class="box">
+            <h5>Customer details</h5>
+
+            <div class="row">
+                <label for="customerName" class="form-label">Customer Name:</label>
+                <p>{{ order.get_customerName() }}</p>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" name="address" class="form-control" id="address" value="{{ order.get_address() }}" disabled>
+                </div>
+                <div class="col-3">
+                    <label for="postalCode" class="form-label">Postal Code:</label>
+                    <input type="text" name="postalCode" class="form-control" id="postalCode" value="{{ order.get_postalCode() }}" disabled>
+                </div>
+                <div class="col-3">
+                    <label for="unitNumber" class="form-label">Unit Number:</label>
+                    <input type="text" name="unitNumber" class="form-control" id="unitNumber" value="{{ order.get_unitNumber() }}" disabled>
+                </div>
+            </div>
+        </div>
+        
+        <div class="box my-3 ge-5">
+            <div class="row">
+                <div class="col-5">
+                    <h6>Item</h6>
+                </div>
+
+                <div class="col-2">
+                    <h6>Price</h6>
+                </div>
+
+                <div class="col-2">
+                    <h6>Qty</h6>
+                </div>
+
+                <div class="col-1">
+                    <h6>Subtotal</h6>
+                </div>
+
+                <div class="col-2">
+                    <h6 class="ms-5">Collected?</h6>
+                </div>
+            </div>
+
+            {% for i in products %}
+            <hr>
+            <div class="row">
+                <div class="col-2">
+                    <a href="/men/{{ i['product'].get_id() }}" class="card mt-4">
+                        <img class="img-fluid" src="{{ i['product'].get_image() }}" alt="image">
+                    </a> 
+                </div>
+        
+                <div class="col-3">
+                    <div class="row mt-4">
+        
+                        <h4>{{ i['product'].get_name() }}</h4>
+                        
+                        <p>{{ i['product'].get_category() }}</p>                        
+                    </div>
+                </div>
+
+                <div class="col-2 my-auto">
+                    <h6>${{ i['product'].get_price() }}</h6>
+                </div>
+
+                <div class="col-2 my-auto">
+                    <h6>x{{ i['qty'] }}</h6>
+                </div>
+
+                <div class="col-2 my-auto">
+                    <h6>${{ i['product'].get_price()*i['qty'] }}</h6>
+                </div>
+
+                {% if not success %}
+                <div class="col-1 my-auto">
+                    <input class="form-check-input" type="checkbox" id="checkbox" name="checkbox" value="collected" style="width: 1.2em;height: 1.2em;" required>
+                </div>
+                {% else %}
+                <div class="col-1 my-auto">
+                    <input class="form-check-input" type="checkbox" id="checkbox" name="checkbox" value="collected" style="width: 1.2em;height: 1.2em;" checked>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %} 
+        </div>
+    </div>
+    
+    <button type="submit" class="btn btn-primary my-4" id="submitBtn">Update Order Status</button>
+</form>
+{% endblock %}

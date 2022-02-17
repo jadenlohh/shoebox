@@ -1,0 +1,24 @@
+{
+    "ss": "1",
+    "msg":{
+        "netsMid": "UMID_877772003",
+        "tid": "",
+        "submissionMode": "B",
+        "txnAmount": "1000",
+        "merchantTxnRef": "20211209 04:37:07",
+        "merchantTxnDtm": "20211209 04:37:07.153",
+        "paymentType": "SALE",
+        "currencyCode": "SGD",
+        "paymentMode": "",
+        "merchantTimeZone": "+8:00",
+        "b2sTxnEndURL": "http://localhost:3000/payment/complete",
+        "b2sTxnEndURLParam": "",
+        "s2sTxnEndURL": "http://s2s-parser.requestcatcher.com/test",
+        "s2sTxnEndURLParam": "",
+        "clientType": "W",
+        "supMsg": "",
+        "netsMidIndicator": "U",
+        "ipAddress": "127.0.0.1",
+        "language": "en"
+    }
+}

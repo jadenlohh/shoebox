@@ -1,0 +1,129 @@
+{% extends 'admin_base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% endblock %}
+
+{% block title %}ShoeBox Admin | Create Product{% endblock %}
+
+{% block content %}
+<style>
+    .breadcrumb {
+        font-size: 15px;
+    }
+    .alert {
+        animation-name: showAlert;
+        animation-duration: 300ms;
+        left: 42%;
+        position: fixed;
+        top: 5px;
+    }
+    @keyframes showAlert {
+        from {
+            transform: translateY(-100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+    .createProduct {
+        border: 1px solid grey;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        border-radius: 12px;
+        padding: 2em 2.5em;
+    }
+    .createProduct input:focus, .createProduct textarea:focus {
+        box-shadow: none;
+    }
+    .btn {
+        padding: 12px 0;
+        width: 100%;
+    }
+</style>
+
+{% if success %}
+    <div class="alert alert-success" id="alert" role="alert">
+        <i class="fas fa-check-circle"></i>&nbsp;&nbsp;Product Added Successfully
+    </div>
+
+    <script>
+        window.addEventListener("load", function() {
+            setTimeout(() => {
+                document.getElementById('alert').style.display = 'none';
+            }, 3000)
+        })
+    </script>
+{% endif %}
+
+<div class="row mb-5">
+    <div class="col-9">
+        <h3>Add Product</h3>
+        <p>Create a new product for the website here</p>
+    </div>
+
+    <div class="col-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/products">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add Product</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form action="/admin/products/create" enctype="multipart/form-data" method="post" class="createProduct">    
+    <div class="row mb-3">
+        <div class="col-7">
+            <label for="name" class="form-label">Product Name</label>
+            <input type="text" name="name" class="form-control" id="name" required>
+        </div>
+
+        <div class="col-5">
+            <label for="productImage" class="form-label">Product Image</label>
+            <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" required>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-5">
+            <label for="brand" class="form-label">Product Brand</label>
+            <input type="text" name="brand" class="form-control" id="brand" required>
+        </div>
+
+        <div class="col-7">
+            <label for="category" class="form-label">Product Category</label>
+            <select name="category" id="category" class="form-select">
+                <option value="Men's Shoe">Men's Shoe</option>
+                <option value="Men's Slide">Men's Slide</option>
+                <option value="Women's Shoe">Women's Shoe</option>
+                <option value="Women's Slide">Women's Slide</option>
+                <option value="Accessories">Accessories</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-6">
+            <label for="price" class="form-label">Sales Price</label>
+            <div class="input-group">
+                <span class="input-group-text">S$</span>
+                <input type="number" name="price" class="form-control" id="price" min="0" required>
+            </div>
+        </div>
+        
+        <div class="col-6">
+            <label for="stock" class="form-label">Quantity</label>
+            <input type="number" name="stock" class="form-control" id="stock" min="0" required>
+        </div>
+    </div>
+    
+    <div class="my-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" class="form-control" id="description" rows="4" required></textarea>
+    </div>
+        
+    <button type="submit" class="btn btn-primary mt-4" id="submitBtn">Create New Product</button>
+</form>
+{% endblock %}

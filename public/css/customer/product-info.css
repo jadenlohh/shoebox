@@ -1,0 +1,77 @@
+.content {
+    width: 95%;
+}
+
+.productDetails {
+    margin-left: 30px;
+}
+
+.productDetails h2 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.alert {
+    display: none;
+    position: fixed;
+    top: 13%;
+    width: 94%;
+    z-index: 999;
+}
+
+ol li a {
+    color: black;
+    text-decoration: none;
+}
+
+ol li a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.options {
+    margin-top: 28%;
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 14px 0;
+    width: 100%;
+}
+
+.fa-spinner {
+    font-size: 16px;
+}
+
+.btn-outline-primary:hover {
+    background-color: white;
+    color: blue;
+} 
+
+.card {
+    border: none;
+    color: black;
+    text-decoration: none;
+    padding: 0 2px;
+}
+
+.card:hover {
+    color: black;
+}
+
+.card-body {
+    padding-left: 5px;
+}
+
+@media (min-width: 1400px) {
+    .content {
+        width: 93%;
+    }
+    .alert {
+        display: none;
+        position: fixed;
+        top: 8.5%;
+        width: 90%;
+        z-index: 999;
+    }
+    
+}

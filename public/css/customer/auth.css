@@ -1,0 +1,67 @@
+body {
+    overflow-x: hidden;
+}
+
+.form-body {
+    padding: 0;
+    margin: 0;
+}
+
+#registrationForm {
+    padding-left: 12px;
+    width: 85%;
+}
+
+#loginForm {
+    padding-right: 12px;
+    width: 84%;
+}
+
+.loginImg {
+    height: 100%;
+}
+
+.form-header h2 {
+    font-size: 32px;
+}
+.form-header h5 {
+    font-size: 18px;
+}
+
+form button {
+    width: 100%;
+}
+
+#registerLink, #loginLink {
+    font-size: 15px;
+    text-align: center;
+}
+
+#pwd-err {
+    display: none;
+}
+
+@media (max-width: 575.98px) {
+    img {
+        display: none;
+    }
+}
+
+@media (min-width: 1400px) {
+    #registrationForm {
+        margin-top: 10%;
+        width: 75%;
+    }
+
+    #loginForm {
+        width: 75%;
+    }
+
+    .form-header h2 {
+        font-size: 35px;
+    }
+
+    .form-header h5 {
+        font-size: 22px;
+    }
+}

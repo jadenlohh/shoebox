@@ -1,0 +1,42 @@
+.statistics {
+    display: flex;
+}
+
+.statistics-card {
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    font-family: Arial;
+    margin-right: 1.5%;
+    width: 31.83%;
+}
+
+.statistics-card p {
+    margin-left: 10px;
+}
+
+.statistics-card i {
+    font-size: 32px;
+}
+
+
+.recent-orders {
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.recent-orders td {
+    padding-bottom: 0;
+}
+
+.order-status {
+    border-radius: 15px;
+    text-align: center;
+    padding: 3px 0;
+    width: 5.5em;
+}
+
+#actions::after {
+    content: none;
+}

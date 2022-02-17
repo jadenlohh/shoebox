@@ -1,0 +1,102 @@
+{% extends 'admin_base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+{% endblock %}
+
+{% block title %}ShoeBox Admin | Manage Orders{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h3>Manage Orders</h3>
+    <p>View and manage all orders here</p>
+</div>
+
+<table id="table"></table>
+
+<div class="modal fade" id="confirmPopupMsg" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cancel order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel this order?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-danger" onclick="deleteOrder()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadingTemplate(message) {
+        return '<i class="fa fa-spinner fa-spin fa-fw fa-2x"></i>'
+    }
+
+    function deleteOrder() {
+        location.replace('/admin/orders/delete/' + rowID)
+    }
+
+    $('#table').bootstrapTable({
+        url: '/admin/orders/retrive',
+        loadingTemplate: loadingTemplate,
+        pagination: true,
+        paginationLoop: false,
+        search: true,
+        buttons: 'buttons',
+        buttonsClass: 'primary ms-2',
+        showButtonText: true,
+        columns: [{
+            field: 'id',
+            title: 'Order ID',
+        }, {
+            field: 'customerName',
+            title: 'Customer Name',
+            sortable: true
+        }, {
+            field: 'products',
+            title: 'Items',
+        }, {
+            field: 'amount',
+            title: 'Order Total (S$)',
+            sortable: true
+        }, {
+            field: 'status',
+            title: 'Status',
+            sortable: true
+        }, {
+            title: 'Operator',
+            formatter: function () {
+                return [
+                    '<button class="btn btn-primary btn-sm me-1 edit" title="Edit">',
+                        '<i class="fas fa-edit"></i>',
+                    '</button>',
+                    '<button class="btn btn-danger btn-sm delete" data-bs-toggle="modal" data-bs-target="#confirmPopupMsg" title="Delete">',
+                        '<i class="fas fa-trash-alt"></i>',
+                    '</button>'
+                ].join('');
+            },
+            events: {
+                'click .edit': function (e, value, row) {
+                    location.replace('/admin/orders/update/' + row.id)
+                }, 
+                'click .delete': function (e, value, row) {
+                    rowID = row.id
+                }
+            },
+            align: 'center',
+            valign: 'middle'
+        }]
+    })
+</script>
+{% block scripts %}{% endblock %}
+{% endblock %}

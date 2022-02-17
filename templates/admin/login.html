@@ -1,0 +1,55 @@
+{% extends 'admin_base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}ShoeBox Admin | Login{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<style>
+    .main-content {
+        margin: 0 !important;
+    }
+    #loginForm {
+        border: 1px solid grey;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 2.5em 3em 5em 3em;
+        width: 450px;
+    }
+</style>
+
+<div class="row" style="height: 100vh;">
+    <div class="col-12 my-auto">
+        <form method="post" class="mx-auto" id="loginForm">
+            <div class="row">
+                <img src="/public/images/logo.svg" class="mx-auto img-fluid" style="width: 40%;">
+                <h3 style="font-family: 'Open Sans', sans-serif;;text-align: center;">Sign in</h3>
+                <p style="text-align: center;">Login in using your admin account</p>
+            </div>
+    
+            <div class="my-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control shadow-none" id="email" value="{{ request.form.email }}" required>
+            </div>
+    
+            <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control shadow-none" id="password" required>
+    
+                {% if error != None %}
+                    <p class="form-text" style="color: red;">
+                        <i class="fas fa-exclamation-triangle"></i>&nbsp;&nbsp;{{ error }}
+                    </p>
+                {% endif %}
+            </div>
+    
+            <button type="submit" class="btn btn-primary shadow-none" style="width: 100%; padding: 8px;">Sign in</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

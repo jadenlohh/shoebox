@@ -1,0 +1,105 @@
+{% block links %}
+<script src="/public/js/cookies.js"></script>
+{% endblock %}
+
+<style>
+    .navbar {
+        border-bottom: 1px solid #e6e6e6;
+    }
+    .navigations {
+        padding: 0 15px; 
+    }
+    .navbar-brand {
+        padding: 0;
+        margin-right: 10px;
+    }
+    .nav-item .dropdown-menu {
+        z-index: 9999;
+    }
+    .nav-link {
+        color: black !important;
+    }
+    .nav-link:hover {
+        color: black;
+    }
+
+    @media (max-width: 575.98px) {
+        .rightLinks {
+            margin-top: 30px;
+        }
+    }
+    
+    @media (min-width: 1400px) {
+    .navigations {
+        padding: 0 2em;
+    }
+}
+</style>
+
+<nav class="navbar navbar-expand-md navbar-light">
+    <div class="container-fluid navigations mx-auto">
+        <a class="navbar-brand" href="/">
+            <img src="/public/images/logo.svg">
+        </a>
+
+        <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav me-auto">
+
+                <li class="nav-item me-1">
+                    <a class="nav-link" href="/men">Men</a>
+                </li>
+
+                <li class="nav-item me-1">
+                    <a class="nav-link" href="/women">Women</a>
+                </li>
+
+                <li class="nav-item me-1">
+                    <a class="nav-link" href="/accessories">Accessories</a>
+                </li>
+
+                <li class="nav-item me-1">
+                    <a class="nav-link" href="/support">Support</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav rightLinks">
+                {% if session['userid'] %}
+                    <li class="nav-item dropdown me-2">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                            <img src="https://img.icons8.com/fluency-systems-regular/22/000000/user.png"/>&nbsp;Hi, {{ session['firstName'] }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/account">Profile</a></li>
+                            <li><a class="dropdown-item" href="/account/orders">Orders</a></li>
+                            <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+                        </ul>
+                    </li>
+
+                    {% if session['totalItems'] == 0 %}
+                        <li class="nav-item me-2 my-auto">
+                            <a class="nav-link" href="/cart" title="Shopping cart"><img src="https://img.icons8.com/small/23/000000/shopping-cart.png"/>&nbsp;Cart</a>
+                        </li>
+                        
+                    {% else%}
+                        <li class="nav-item me-2 my-auto">
+                            <a class="nav-link" href="/cart" title="Shopping cart"><img src="https://img.icons8.com/small/23/000000/shopping-cart.png"/>&nbsp;Cart ({{ session['totalItems'] }})</a>
+                        </li>
+                    {% endif %}
+                    
+                {% else %}
+                    <li class="nav-item me-2 my-auto">
+                        <a class="nav-link" href="/login" title="Login"><img src="https://img.icons8.com/fluency-systems-regular/24/000000/user.png"/>&nbsp;Sign in</a>
+                    </li>
+
+                    <li class="nav-item me-2 my-auto">
+                        <a class="nav-link" href="/cart" title="Shopping cart"><img src="https://img.icons8.com/small/23/000000/shopping-cart.png"/>&nbsp;Cart</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

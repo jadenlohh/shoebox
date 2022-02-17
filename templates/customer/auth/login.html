@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<link rel="stylesheet" href="/public/css/customer/auth.css">
+{% endblock %}
+
+{% block title %}ShoeBox | Login{% endblock %}
+
+{% block content %}
+<div class="container-fluid form-body">
+    <div class="row">
+        <div class="col-md-6">
+            <img class="img-fluid loginImg" src="/public/images/login-img.jpg" alt="A Nike shoe">
+        </div>
+
+        <div class="col-md-6 my-auto">
+            <form method="post" id="loginForm" class="mx-auto">
+                <div class="form-header mb-5" id="header">
+                    <h2>Sign in</h2>
+                    <h5>Please login to continue</h5>
+                </div>
+                
+                {% if error == None %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control" id="email" value="{{ request.form.email }}" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" required>
+                    </div>
+                {% else %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="color: red;">Email address <i>- {{ error }}</i></label>
+                        <input type="email" name="email" class="form-control" id="email" value="{{ request.form.email }}" style="border: 1px solid red;" required>
+                    </div>
+            
+                    <div class="mb-4">
+                        <label for="password" class="form-label" style="color: red;">Password <i>- {{ error }}</i></label>
+                        <input type="password" name="password" class="form-control" id="password" style="border: 1px solid red;" value="{{ request.form.password }}" required>
+                    </div>
+                {% endif %}
+
+                <div class="row mb-5">
+                    <div class="col-4 my-auto">
+                        <a href="/forget-password">Forgot Password?</a>
+                    </div>
+
+                    <div class="col-8">
+                        <button type="submit" class="btn btn-primary">Sign in</button>
+                    </div>
+                </div>
+                
+                <p id="registerLink">Don't have an account? <a href="/register">Create one</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect');
+    const sourceURL = urlParams.get('source');
+
+    if (redirect == null && sourceURL == null) {
+        document.getElementById('loginForm').action = '/login';
+    }
+    else if (redirect != null && sourceURL == null) {
+        document.getElementById('loginForm').action = '/login?redirect=' + redirect;
+    } 
+    else {
+        document.getElementById('loginForm').action = '/login?redirect=' + redirect + '&source=' + sourceURL;
+    }
+</script>
+
+{% block footer %} {% endblock %}
+{% endblock %}

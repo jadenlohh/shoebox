@@ -1,0 +1,84 @@
+.products {
+    width: 94%;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+#productFilters {
+    background-color: white;
+}
+
+#showFilterParent {
+    padding-right: 5px;
+    text-align: right;
+}
+
+#showFilterParent .btn {
+    padding-right: 0;
+}
+
+.fa-plus, .fa-minus {
+    font-size: 14px;
+}
+
+#sortBtn {
+    padding-right: 0;
+}
+
+#allFilters {
+    display: none;
+}
+
+#allFilters .dropdown-toggle {
+    padding: 0;
+}
+
+.dropdown-item {
+    cursor: pointer;
+}
+
+.card {
+    border: none;
+    color: black;
+    text-decoration: none;
+}
+
+.card:hover {
+    color: black;
+}
+
+.card-body {
+    padding-left: 5px;
+}
+
+.card-text span {
+    color: grey;
+}
+
+.pagination-detail {
+    display: none;
+}
+
+@media (min-width: 1400px) {
+    .products {
+        width: 91%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .products {
+        padding: 0;
+        width: 100%;
+    }
+    .cards {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    .bootstrap-table {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
+}

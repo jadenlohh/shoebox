@@ -1,0 +1,141 @@
+{% extends 'admin_base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% endblock %}
+
+{% block title %}ShoeBox Admin | Edit User{% endblock %}
+
+{% block content %}
+<style>
+    .box {
+        border: 1px solid grey;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border-radius: 12px;
+        padding: 1.5em;
+    }
+    .alert {
+        animation-name: showAlert;
+        animation-duration: 300ms;
+        left: 42%;
+        position: fixed;
+        top: 5px;
+    }
+    @keyframes showAlert {
+        from {
+            transform: translateY(-100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+    #submitBtn {
+        padding: 12px;
+        width: 100%;
+    }
+</style>
+
+{% if success %}
+    <div class="alert alert-success" id="alert" role="alert">
+        <i class="fas fa-check-circle"></i>&nbsp;&nbsp;Updated Customer Information
+    </div>
+
+    <script>
+        window.addEventListener("load", function() {
+            setTimeout(() => {
+                document.getElementById('alert').style.display = 'none';
+            }, 3000)
+        })
+    </script>
+{% endif %}
+
+<div class="row mb-5">
+    <div class="col-8">
+        <h3>Edit User Information</h3>
+        <p>Update and change the customer's particulars here</p>
+    </div>
+
+    <div class="col-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/customers">Customers</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Customer</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form action="/admin/customers/update/{{ user.get_id() }}" method="post" class="editParticulars">
+    <div class="box">
+        <h5>Personal Information</h5>
+        <p class="mb-4" style="font-size: 15px;">Customer's personal information (eg. name, email)</p>
+    
+        <div class="mb-3">
+            <label for="id" class="form-label">User ID</label>
+            <input type="text" name="id" class="form-control" id="id" value="{{ user.get_id() }}" disabled>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-6">
+                <label for="firstName" class="form-label">First name</label>
+                <input type="text" name="firstName" class="form-control input" id="firstName" value="{{ user.get_firstName() }}" required>
+            </div>
+        
+            <div class="col-6">
+                <label for="lastName" class="form-label">Last name</label>
+                <input type="text" name="lastName" class="form-control input" id="lastName" value="{{ user.get_lastName() }}" required>
+            </div>
+        </div>
+
+        {% if error %}
+            <div class="my-3">
+                <label for="email" class="form-label" style="color: red;">Email address <i>- {{ error }}</i></label>
+                <input type="email" name="email" class="form-control input" id="email" value="{{ user.get_email() }}" required>
+            </div>
+        {% else %}
+            <div class="my-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control input" id="email" value="{{ user.get_email() }}" required>
+            </div>
+        {% endif %}
+
+
+        <h5 class="mt-5">Customer's Address</h5>
+        <p class="mb-3" style="font-size: 15px;">Current customer's address (Empty if user did not provide)</p>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Address Line</label>
+            <textarea name="address" class="form-control shadow-none" id="address" rows="3">{{ user.get_address() }}</textarea>
+        </div>
+    
+        <div class="mb-3">
+            <label for="postalCode" class="form-label">Postal Code</label>
+            <input type="text" name="postalCode" class="form-control" id="postalCode" value="{{ user.get_postalCode() }}">
+        </div>
+    
+        <div class="mb-4">
+            <label for="unitNumber" class="form-label">Unit Number</label>
+            <input type="text" name="unitNumber" class="form-control" id="unitNumber" value="{{ user.get_unitNumber() }}">
+        </div>
+
+        <input type="hidden" name="emailChanged" id="emailChanged" value="">
+    
+    </div>
+    <button type="submit" class="btn btn-primary my-4" id="submitBtn">Update Particulars</button>
+</form>
+
+<script>
+    var email = document.getElementById('email');
+    var original_email_input = document.getElementById('email').value;
+    
+    email.onkeyup = function() {
+        var email_input = document.getElementById('email').value;
+
+        if (email_input != original_email_input) {
+            document.getElementById('emailChanged').value = 'true';
+        }
+    }  
+</script>
+{% endblock %}

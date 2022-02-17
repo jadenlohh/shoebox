@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+{% endblock %}
+
+{% block title %}ShoeBox | Address Book{% endblock %}
+
+{% block content %}
+<style>
+    p a {
+        color: black;
+        text-decoration: none;
+    }
+    p a:hover {
+        color: black;
+        text-decoration: underline;
+    }
+    .col-form-label {
+        text-align: right;
+    }
+    #manageAccountForm .form-control {
+        width: 65%;
+    }
+    .btn {
+        padding: 6px 0;
+        width: 22%;
+    }
+</style>
+<div class="container-fluid" style="width: 93%;">
+    <div class="row mt-5">
+        {% include 'includes/account_nav.html' %}
+
+        <div class="col-9">
+            <div class="container-fluid">
+                <h4>My Address</h4>
+                <p>View and add your address here</p>
+
+                <form class="mt-5 ms-5" method="post" id="manageAccountForm">
+                    <div class="mb-3 row">
+                        <label for="address" class="col-2 col-form-label">Address</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control shadow-none" name="address" id="address" value="{{ profile.get_address() }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="postalCode" class="col-2 col-form-label">Postal Code</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control shadow-none" name="postalCode" id="postalCode" value="{{ profile.get_postalCode() }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="unitNumber" class="col-2 col-form-label">Unit Number</label>
+                        <div class="col-10">
+                            <input type="text" class="form-control shadow-none shadow-none" name="unitNumber" id="unitNumber" value="{{ profile.get_unitNumber() }}">
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-10 my-auto">
+                            {% if success %}
+                                <button type="submit" class="btn btn-success shadow-none" id="submitBtn"><i class="fas fa-check"></i></button>
+                            {% else %}
+                                <button type="submit" class="btn btn-primary shadow-none" id="submitBtn">Update address</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

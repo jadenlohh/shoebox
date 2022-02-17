@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+{% endblock %}
+
+{% block title %}ShoeBox | Manage Password{% endblock %}
+
+{% block content %}
+<style>
+    p a {
+        color: black;
+        text-decoration: none;
+    }
+    p a:hover {
+        color: black;
+        text-decoration: underline;
+    }
+    .col-form-label {
+        text-align: right;
+    }
+    #changePwdForm .form-control, .form-text {
+        width: 65%;
+    }
+    .row .btn {
+        padding: 7px 18px;
+    }
+    .animation {
+        animation-name: error;
+        animation-duration: 0.4s;
+    }
+    @keyframes error {
+        0% {margin-left: -5px;}
+        25% {margin-left: 5px;}
+        50% {margin-left: -3px;}
+        75% {margin-left: 3px;}
+        100% {margin-left: 0;}
+    }
+</style>
+<div class="container-fluid" style="width: 93%;">
+    <div class="row mt-5">
+        {% include 'includes/account_nav.html' %}
+
+        <div class="col-9">
+            <div class="container-fluid">
+                <h4>Change Password</h4>
+                <p>Edit and change your password here</p>
+
+                <form method="post" class="mt-5" id='changePwdForm'>
+                    <div class="mb-3 row">
+                        <label for="currentPwd" class="col-3 col-form-label">Current password</label>
+                        <div class="col-9">
+                            <input type="password" class="form-control shadow-none" name="currentPwd" id="currentPwd" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="newPwd" class="col-3 col-form-label">New Password</label>
+                        <div class="col-9">
+                            <input type="password" class="form-control shadow-none" name="newPwd" id="newPwd" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="confirmPwd" class="col-3 col-form-label">Confirm password</label>
+                        <div class="col-9">
+                            <input type="password" class="form-control shadow-none" name="currentPwd" id="confirmPwd" required>
+                            {% if err == 'incorrectPwd'%}
+                                <p class="form-text animation" id="msg" style="color: red;">
+                                    Your current password is incorrect
+                                </p>
+                            {% else %}
+                                <p class="form-text" id="msg">
+                                    Your password must be at least 8 characters long with a mix of numbers, uppercase and lowercase letters
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-end">
+                        <div class="col-9">
+                            <button type="submit" class="btn btn-primary shadow-none">Change password</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/public/js/account.js"></script>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<link rel="stylesheet" href="/public/css/customer/auth.css">
+{% endblock %}
+
+{% block title %}ShoeBox | Registration{% endblock %}
+
+{% block content %}
+<div class="container-fluid form-body">
+    <div class="row">
+        <div class="col-md-6 my-5">
+            <form action="/register" method="post" class="mx-auto" id="registrationForm">
+                <div class="form-header mb-5">
+                    <h2>Register</h2>
+                    <h5>Welcome! Please fill up your particulars</h5>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="firstName" class="form-label">First name</label>
+                        <input type="text" name="firstName" class="form-control" id="firstName" value="{{ request.form.firstName }}" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="lastName" class="form-label">Last name</label>
+                        <input type="text" name="lastName" class="form-control" id="lastName" value="{{ request.form.lastName }}" required>
+                    </div>
+                </div>
+        
+                {% if error == None %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control" id="email" required>
+                    </div>
+
+                {% else %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="color: red;">Email address <i>- {{ error }}</i></label>
+                        <input type="email" name="email" class="form-control" id="email" style="border: 1px solid red;" value="{{ request.form.email }}" required>
+                    </div>
+                {% endif %}
+        
+                <div class="mb-4">
+                    <label for="password" class="form-label" id="pwd-label">Password <i id="pwd-err">- Password does not meet the requirements</i></label>
+                    <input type="password" name="password" class="form-control" id="password" value="{{ request.form.password }}" required>
+
+                    <p class="form-text">
+                        Your password must be at least 8 characters long with a mix of numbers, uppercase and lowercase letters
+                    </p>
+                </div>
+
+                <div class="mb-5">
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
+
+                <p id="loginLink">Already have an account? <a href="/login">Login here</a></p>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <img class="img-fluid" src="/public/images/registration-img.jpg" alt="A sports shoe">
+        </div>
+    </div>
+</div>
+
+<script>
+    function validpwd() {
+        const password = document.getElementById('password').value;
+
+        const lowerCaseLetters = /[a-z]/g;
+        const upperCaseLetters = /[A-Z]/g;
+        const numbers = /[0-9]/g;
+
+        return password.match(lowerCaseLetters) && password.match(upperCaseLetters) &&
+            password.match(numbers) && password.length >= 8;
+    }
+
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        if (!validpwd()) {
+            event.preventDefault();
+
+            document.getElementById('pwd-label').style.color = 'red';
+            document.getElementById('pwd-err').style.display = 'inline-block';
+            document.getElementById('password').style.border = '1px solid red';
+        }
+    });
+</script>
+
+{% block footer %} {% endblock %}
+{% endblock %}

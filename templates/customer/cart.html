@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+{% endblock %}
+
+{% block title %}ShoeBox | My Cart{% endblock %}
+
+{% block content %}
+<style>
+    .item {
+        padding: 5px 0 20px 0;
+        width: 98%;
+    }
+    .quantitySection span a i {
+        color: black;
+        font-size: 12px;
+    }
+    .amt {
+        text-align: right;
+    }
+    .btn-outline-primary {
+        border-radius: 6px;
+        padding: 16px 0;
+        width: 100%;
+    }
+    .btn-outline-primary:hover {
+        background-color: white;
+        color: blue;
+    }
+    .cart {
+        width: 93%;
+    }
+    #promoCode {
+        display: inline;
+        padding: 10px 12px;
+    }
+    #promoCodeBtn {
+        padding: 10px 12px;
+        width: 100%;
+    }
+    
+    @media (min-width: 1400px){
+        .cart {
+            width: 92%;
+        }
+    }
+</style>
+<div class="container-fluid cart my-5">
+    <div class="row justify-content-between">
+        <div class="col-md-8">
+            <h2 style="font-family: Arial, Helvetica, sans-serif;">My Cart</h2>
+
+            {% if session['totalItems'] == 0 %}
+                <input type="hidden" id="items" value="0">
+                <p>There is no item(s) in your cart</p>
+
+            {% else %}
+                {% for i in items[:-1] %}
+                    <div class="row item mt-4">
+                        <div class="col-4">
+                            <img src="{{ i.get('image') }}" class="img-fluid">
+                        </div>
+                        
+                        <div class="col-8">
+                            <div class="row justify-content-between mt-4">
+                                <div class="col-5">
+                                    <h6>{{ i.get('name') }}</h6>
+                                </div>
+
+                                <div class="col-2">
+                                    <h6>S${{ i.get('price') }}</h6>
+                                </div>
+                            </div>
+
+                            <p>{{ i.get('category') }}</p>
+
+                            <div class="mt-5 quantitySection">
+                                <span><a href="/cart/delete/{{ i['id'] }}"><i class="fas fa-minus"></i></a></span>
+                                <span>&nbsp;&nbsp;{{ i.get('quantity') }}&nbsp;&nbsp;</span>
+                                <span><a href="/cart/add/{{ i['id'] }}"><i class="fas fa-plus"></i></a></span>
+                            </div>
+                        </div>
+                    </div><hr width="96%">
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="col-md-4">
+            <h4>Order Summary</h4>
+
+            <div class="row justify-content-between mt-4">
+                <div class="col-4"><p>Subtotal</p></div>
+                <div class="col-4 amt"><p>S${{ items[-1]['subtotal'] }}.00</p></div>
+            </div>
+            
+            <div class="row justify-content-between">
+                <div class="col-4"><p>Delivery Fee</p></div>
+                <div class="col-4 amt"><p>S${{ items[-1]['deliveryFee'] }}.00</p></div>
+            </div>
+
+            <div class="row justify-content-between" id="discount" style="display: none;">
+                <div class="col-9" style="color: green;"><p>Discount Applied</p></div>
+                <div class="col-3 amt" style="color: green;"><p id="discountAmt"></p></div>
+            </div>
+
+            <div class="row justify-content-between mt-4">
+                <hr style="width: 94%;color: grey;" class="mx-auto">
+                <div class="col-4"><p>Total</p></div>
+                <div class="col-4 amt" id="totalAmt"><p>S${{ items[-1]['total'] }}.00</p></div>
+                <hr style="width: 94%;color: grey;" class="mx-auto">
+            </div>
+
+            <button class="btn btn-outline-primary shadow-none" id="checkout" onclick="checkout()">
+                <div class="row justify-content-between">
+                    <div class="col-4">Checkout</div>
+                    <div class="col-3"><i class="fas fa-arrow-right"></i></div>
+                </div>
+            </button>
+
+
+            <form class="row justify-content-end mt-4" id="promoCodeForm">
+                <label for="promoCode" class="form-label" style="font-size: 14px;">Enter Promo Code</label>
+                <div class="col-9" style="padding-right: 0;">
+                    <input type="text" name="promoCode" class="form-control shadow-none" id="promoCode" placeholder="Promo Code">
+                    <p class="form-text" id="promoCodeMsg"></p>
+                </div>
+                
+                <div class="col-3">
+                    <button type="submit" class="btn btn-primary shadow-none" id="promoCodeBtn">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload =  function checkItems() {
+        var cart = document.getElementById('items');
+        if (cart != null && cart.value == '0') {
+            document.getElementById('checkout').disabled = true;
+            document.getElementById('promoCodeForm').style.display = 'none';
+        }
+    }
+
+    discountInputed = false;
+
+    document.getElementById('promoCodeForm').addEventListener('submit', function(event) {
+        var code = document.getElementById('promoCode').value;
+        event.preventDefault();
+
+        if (!discountInputed) {
+            fetch('/cart/get-discountCodes?code=' + code)
+            .then(response => response.json())
+            .then(data => {
+                if (data.valid) {
+                    document.getElementById('promoCodeMsg').style.color = 'green';
+                    document.getElementById('promoCodeMsg').innerHTML = 'Successfully Applied Code!';
+
+                    document.getElementById('discount').style.display = 'flex';
+                    document.getElementById('discountAmt').innerHTML = '- S$' + data.amount + '.00';
+
+                    document.getElementById('totalAmt').innerHTML = 'S$' + data.totalCartAmount + '.00';
+                    discountInputed = true;
+
+                    document.cookie = 'discount=' + data.amount + ';';
+                }
+                else {
+                    document.getElementById('promoCodeMsg').style.color = 'red';
+                    document.getElementById('promoCodeMsg').innerHTML = 'Invalid Discount Code!';
+                }
+            })
+        }
+        else {
+            document.getElementById('promoCodeMsg').style.color = 'red';
+            document.getElementById('promoCodeMsg').innerHTML = 'Only 1 discount code can be used!';
+        }
+    })
+
+    function checkout() {
+        document.getElementById('checkout').innerHTML = '<i class="fa fa-spinner fa-spin fa-fw fa-2x" style="font-size: 16px;"></i>';
+
+        setTimeout(function() {
+            location.replace('/cart/checkout');
+        }, 700)
+    }
+</script>
+{% endblock %}

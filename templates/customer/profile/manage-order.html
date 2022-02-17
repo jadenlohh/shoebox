@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block title %}ShoeBox | View Orders{% endblock %}
+
+{% block content %}
+<style>
+    p a {
+        color: black;
+        text-decoration: none;
+    }
+    p a:hover {
+        color: black;
+        text-decoration: underline;
+    }
+</style>
+<div class="container-fluid" style="width: 93%;">
+    <div class="row mt-5">
+        {% include 'includes/account_nav.html' %}
+
+        <div class="col-10">
+            <h4>All Orders</h4>
+            
+            {% for i in orders %}
+                <div class="order-details px-4 py-4 mt-5" style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5 class="my-auto" style="font-family: 'Open Sans', sans-serif;">#{{ i.orderID }}</h5>
+                        </div>
+
+                        <div class="col-6">
+                            <h6 class="my-auto" style="font-family: 'Open Sans', sans-serif;color: #0d6efd;text-align: right;">{{ i.status }}</h6>
+                        </div>
+                    </div><hr>
+
+                    {% for items in i['items']%}
+                        <div class="row mt-3">
+                            <div class="col-2">
+                                <img src="{{ items.image }}" alt="Product image" class="img-fluid">
+                            </div>
+                            
+                            <div class="col-7">
+                                <h5>{{ items.name }}</h5>
+                                <p>{{ items.category }}</p>
+                                <p>x{{ items.quantity }}</p>
+                            </div>
+
+                            <div class="col-3" style="text-align: right;">${{ items.price }}.00</div>
+                        </div>
+                    {% endfor %}<hr>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <button class=" btn btn-primary shadow-none" id="{{ i.orderID }}" style="padding: 10px 20px;" onclick="reorder(this.id)">Order Again</button>
+                        </div>
+
+                        <div class="col-6 my-auto" style="text-align: right;"><h5>Total: ${{ i.total }}.00</h5></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function reorder(id) {
+        location.replace('/account/orders/reorder/' + id);
+    }
+</script>
+{% endblock %}

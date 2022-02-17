@@ -1,0 +1,198 @@
+{% extends 'admin_base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+{% endblock %}
+
+{% block title %}ShoeBox Admin | Edit Product{% endblock %}
+
+{% block content %}
+<style>
+    .breadcrumb {
+        font-size: 15px;
+    }
+    .box {
+        border: 1px solid grey;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border-radius: 12px;
+        padding: 1.5em;
+    }
+    .alert {
+        animation-name: showAlert;
+        animation-duration: 300ms;
+        left: 42%;
+        position: fixed;
+        top: 5px;
+    }
+    @keyframes showAlert {
+        from {
+            transform: translateY(-100%);
+        }
+        to {
+            transform: translateY(0);
+        }
+    }
+    #productImageLabel {
+        border: 1px solid #0d6efd;
+        border-radius: 5px;
+        color: #0d6efd;
+        cursor: pointer;
+        padding: 12px;
+        text-align: center;
+        width: 100%;
+    }
+    #submitBtn {
+        padding: 14px;
+        width: 99%;
+    }
+    .noMarginRight {
+        margin-right: 0 !important;
+    }
+</style>
+
+{% if success %}
+    <div class="alert alert-success" id="alert" role="alert">
+        <i class="fas fa-check-circle"></i>&nbsp;&nbsp;Product Updated Successfully
+    </div>
+
+    <script>
+        window.addEventListener("load", function() {
+            setTimeout(() => {
+                document.getElementById('alert').style.display = 'none';
+            }, 3000)
+        })
+    </script>
+{% endif %}
+
+<div class="row mb-5">
+    <div class="col-9">
+        <h3>Edit Product</h3>
+        <p>Update or change the product information here</p>
+    </div>
+
+    <div class="col-3">
+        <nav aria-label="breadcrumb" class="mb-5" style="font-size: 15px;">
+            <ol class="breadcrumb" style="text-align: right;">
+                <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                <li class="breadcrumb-item"><a href="/admin/products">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Product</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<form action="/admin/products/update/{{ product.get_id() }}" method="post" enctype="multipart/form-data" class="pe-3">
+    <div class="row">
+        <div class="col-5 ge-5">
+            <div class="box">
+                <img src="{{ product.get_image() }}" class="img-fluid mb-3" id="product-img">
+
+                <label for="productImage" id="productImageLabel">Choose New Image</label>
+                <input type="file" class="form-control" id="productImage" name="productImage" accept="image/*" onchange="checkImg(event)" hidden>
+            </div>
+        </div>
+
+        <div class="col-7 box">
+            <h5>Product Information</h5>
+            <p class="mb-4" style="font-size: 15px;">Edit product details (eg. name, price)</p>
+            
+            <div class="mb-3">
+                <label for="id" class="form-label">Product ID</label>
+                <input type="text" name="id" class="form-control shadow-none" id="id" value="{{ product.get_id() }}" disabled>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-8">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control shadow-none" id="name" value="{{ product.get_name() }}" required>
+                </div>
+    
+                <div class="col-4">
+                    <label for="price" class="form-label">Sales Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" name="price" class="form-control shadow-none" id="price" value="{{ product.get_price() }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Product Category</label>
+
+                {% if product.get_category() == "Men's Shoe" %}
+                <select name="category" id="category" class="form-select shadow-none">
+                    <option value="Men's Shoe">Men's Shoe</option>
+                    <option value="Men's Slide">Men's Slide</option>
+                    <option value="Women's Shoe">Women's Shoe</option>
+                    <option value="Women's Slide">Women's Slide</option>
+                    <option value="Accessories">Accessories</option>
+                </select>
+                {% elif product.get_category() == "Men's Slide" %}
+                <select name="category" id="category" class="form-select shadow-none">
+                    <option value="Men's Slide">Men's Slide</option>
+                    <option value="Men's Shoe">Men's Shoe</option>
+                    <option value="Women's Shoe">Women's Shoe</option>
+                    <option value="Women's Slide">Women's Slide</option>
+                    <option value="Accessories">Accessories</option>
+                </select>
+                {% elif product.get_category() == "Women's Shoe" %}
+                <select name="category" id="category" class="form-select shadow-none">
+                    <option value="Women's Shoe">Women's Shoe</option>
+                    <option value="Women's Slide">Women's Slide</option>
+                    <option value="Men's Shoe">Men's Shoe</option>
+                    <option value="Men's Slide">Men's Slide</option>
+                    <option value="Accessories">Accessories</option>
+                </select>
+                {% elif product.get_category() == "Women's Slide" %}
+                <select name="category" id="category" class="form-select shadow-none">
+                    <option value="Women's Slide">Women's Slide</option>
+                    <option value="Women's Shoe">Women's Shoe</option>
+                    <option value="Men's Shoe">Men's Shoe</option>
+                    <option value="Men's Slide">Men's Slide</option>
+                    <option value="Accessories">Accessories</option>
+                </select>
+                {% else %}
+                <select name="category" id="category" class="form-select shadow-none">
+                    <option value="Accessories">Accessories</option>
+                    <option value="Men's Shoe">Men's Shoe</option>
+                    <option value="Men's Slide">Men's Slide</option>
+                    <option value="Women's Shoe">Women's Shoe</option>
+                    <option value="Women's Slide">Women's Slide</option>
+                </select>
+                {% endif %}
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-9">
+                    <label for="brand" class="form-label">Product Brand</label>
+                    <input type="text" name="brand" class="form-control shadow-none" id="brand" value="{{ product.get_brand() }}" required>
+                </div>
+    
+                <div class="col-3">
+                    <label for="stock" class="form-label">Quantity</label>
+                    <input type="number" name="stock" class="form-control shadow-none" id="stock" value="{{ product.get_stock() }}" required>
+                </div>
+            </div>
+        </div>
+
+        <div  class="my-4" style="padding-right: 0;">
+            <div class="box">
+                <h5>Product Description</h5>
+                <p class="mb-4" style="font-size: 15px;">A short description about the product</p>
+                <textarea name="description" class="form-control shadow-none" id="description" rows="4" required>{{ product.get_description() }}</textarea>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mx-auto noMarginRight shadow-none" id="submitBtn">Update Product</button>
+    </div>
+</form>
+
+<script>
+    function checkImg() {
+        var output = document.getElementById('product-img');
+        output.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
+{% endblock %}

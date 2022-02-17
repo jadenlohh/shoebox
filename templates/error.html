@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block links %}
+{% endblock %}
+
+{% block title %}{{ error_type }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4" style="text-align: center; width: 50%;">
+    <h1 class="display-6 mt-2">{{ error_type }}</h1>
+    <input type="hidden" id="errType" value="{{ error_type }}">
+    <p style="font-size: 18px;">{{ error_msg }}</p>
+
+    <a href="/">
+        <button class="btn btn-primary shadow-none mt-3" style="padding: 8px 34px;">Return home</button>
+    </a>
+</div>
+
+<script>
+    window.onload = function() {
+        if (document.getElementById('errType').value == 'Payment Error') {
+            setTimeout(function() {location.replace('/cart')}, 5000);
+        }
+    }
+</script>
+{% endblock %}
+
+{% block footer %}{% endblock %}

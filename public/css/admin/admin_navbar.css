@@ -1,0 +1,42 @@
+.side-navigations {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    padding: 0;
+    top: 0;
+    left: 0;
+    width: 16%;
+}
+
+.side-navigations .flex-column {
+    height: 100vh;
+}
+
+.side-navigations .navbar-brand {
+    padding: 10px 0;
+}
+
+.side-navigations .active {
+    background-color: rgb(61, 61, 231);
+    border-radius: 10px 0 0 10px;
+    color: white;
+}
+
+.side-navigations a {
+    color: #262626;
+    text-decoration: none;
+    padding: 15px 0;
+    padding-left: 18px;
+    margin: 5px 0 5px 0.8em;
+}
+
+.side-navigations i {
+    font-size: 22px;
+}
+
+.side-navigation-text {
+    margin-left: 12px;
+}
+
+.main-content {
+    margin-left: 16%;
+    width: calc(100% - 16%);
+}

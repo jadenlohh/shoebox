@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://uat2.enets.sg/GW2/pluginpages/env.jsp"></script>
+<script type="text/javascript" src="https://uat2.enets.sg/GW2/js/apps.js"></script>
+{% endblock %}
+
+{% block title %}Merchant Page{% endblock %}
+
+{% block content %}
+<style>
+    #navbar {
+        border-bottom: 1px solid #e6e6e6;
+        padding-bottom: 18px;
+    }
+    .navbar-brand {
+        padding-top: 2px !important;
+        padding-bottom: 0px !important;
+    }
+    .form-group {
+        border: none !important;
+    }
+    .col-sm-8 {
+        margin-bottom: 10px;
+    }
+</style>
+{% block navbar %}{% endblock %}
+
+<nav class="navbar navbar-expand-md navbar-light" id="navbar">
+    <a class="navbar-brand" href="/">
+        <img src="/public/images/logo.svg" alt="Logo">
+    </a>
+</nav>
+
+<input type="hidden" id="txnReq" name="txnReq" value="{{ txnReq }}">
+<input type="hidden" id="keyId" name="keyId" value="{{ keyID }}">
+<input type="hidden" id="hmac" name="hmac" value="{{ MAC_value }}">
+
+<div class="container-fluid">    
+    <div id="ajaxResponse"></div>
+</div>
+
+<script>
+    window.onload = function() {
+        var txnReq = document.getElementById('txnReq').value;
+        var keyId = document.getElementById('keyId').value;
+        var hmac = document.getElementById('hmac').value;
+        sendPayLoad(txnReq, hmac, keyId);
+    };
+</script>
+{% endblock %}

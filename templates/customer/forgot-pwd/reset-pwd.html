@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}ShoeBox | Reset Password{% endblock %}
+
+{% block links %}
+<link rel="icon" href="/public/images/logo.svg">
+{% endblock %}
+
+
+{% block content %}
+{% if error == 'Time expired' %}
+    <div style="margin: auto;width: 45%;" class="mt-5">
+        <h4>Password Reset</h4>
+
+        <div class="alert alert-danger mt-4" role="alert">
+            Sorry, your password link expired. <a href="/forget-password" class="alert-link">Click here</a> to request a new link
+        </div>
+    </div>
+{% else %}
+    <div style="margin: auto;width: 45%;" class="mt-5">
+        <h4>Password Reset</h4>
+        <p>Enter your new password to continue</p>
+        
+        <form method="POST" class="mt-4" id="resetPassword-form">
+            <input type="hidden" name="email" value="{{ email }}">
+            <input type="password" name="password" id="password" class="form-control shadow-none" placeholder="New Password">
+            <input type="password" name="confirmPwd" id="confirmPwd" class="form-control shadow-none mt-3" placeholder="Confirm Password">
+        
+            <div class="form-text" id="form-msg">
+                Your password must be at least 8 characters long with a mix of numbers, uppercase and lowercase letters
+            </div>
+        
+            <button type="submit" class="btn btn-primary shadow-none mt-3" id="resetBtn" onclick="changePwd()">Change Password</button>
+        </form>
+    </div>
+    {% endif %}
+
+<script>
+    function validpwd() {
+        const password = document.getElementById('password').value;
+
+        const lowerCaseLetters = /[a-z]/g;
+        const upperCaseLetters = /[A-Z]/g;
+        const numbers = /[0-9]/g;
+
+        return password.match(lowerCaseLetters) && password.match(upperCaseLetters) &&
+            password.match(numbers) && password.length >= 8;
+    }
+
+    function changePwd() {
+        if (!validpwd()) {
+            event.preventDefault();
+            document.getElementById('form-msg').style.color = 'red';
+        }
+        else if (document.getElementById('password').value != document.getElementById('confirmPwd').value) {
+            event.preventDefault();
+            document.getElementById('form-msg').style.color = 'red';
+            document.getElementById('form-msg').innerHTML = 'Passwords does not match!';
+        }
+        else {
+            document.getElementById('resetPassword-form').submit();
+        }
+    };
+</script>
+
+{% block footer %}{% endblock %}
+{% endblock %}

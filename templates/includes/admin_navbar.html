@@ -1,0 +1,35 @@
+{% block links %}
+<link rel="stylesheet" href="/public/css/admin/admin_navbar.css">
+{% endblock %}
+
+<div class="side-navigations position-fixed">
+    <nav class="nav flex-column my-4">
+        <img src="/public/images/logo.svg" alt="Company logo" class="img-fluid navbar-brand mx-auto">
+
+        <a href="/admin/dashboard" id="dashboard-link"><i class="fas fa-home fa-fw"></i> <span class="side-navigation-text">Dashboard</span></a>
+        <a href="/admin/orders" id="orders-link"><i class="fas fa-cart-arrow-down fa-fw"></i> <span class="side-navigation-text">Orders</span></a>
+        <a href="/admin/products" id="products-link"><i class="fas fa-box-open fa-fw"></i> <span class="side-navigation-text">Products</span></a>
+        <a href="/admin/customers" id="customers-link"><i class="fas fa-user fa-fw"></i> <span class="side-navigation-text">Customers</span></a>
+
+        <a href="/admin/logout" style="margin-top:auto;margin-bottom: 3rem;"><i class="fas fa-sign-out-alt fa-fw"></i> <span class="side-navigation-text">Logout</span></a>
+    </nav>
+</div>
+
+<script>
+    window.onload = () => {
+        var url = window.location.pathname;
+
+        if (url.includes('/dashboard')) {
+            document.getElementById('dashboard-link').classList.add('active');
+        }
+        else if (url.includes('/orders')) {
+            document.getElementById('orders-link').classList.add('active');
+        }
+        else if (url.includes('/products')) {
+            document.getElementById('products-link').classList.add('active');
+        }
+        else if (url.includes('/customers')) {
+            document.getElementById('customers-link').classList.add('active');
+        }
+    }
+</script>

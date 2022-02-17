@@ -1,0 +1,26 @@
+[
+    {
+        "Q": "<i class='fas fa-plus icons'></i>&nbsp;&nbsp;How long does it take to deliver my products?",
+        "A": "It usually takes about 3 to 5 days for the product to be delivered",
+        "category": "orders&delivery"
+    },
+    {
+        "Q": "<i class='fas fa-plus'></i>&nbsp;&nbsp;Can i change my delivery information after placing an order?",
+        "A": "Sorry, but you are not able to change your delivery information (eg. address, phone number) after you have placed the order",
+        "category": "orders&delivery"
+    },
+    {
+        "Q": "<i class='fas fa-plus'></i>&nbsp;&nbsp;How do i track my order?",
+        "A": "You can track your latest order by clicking on the 'Orders' section in your profile or <a href='/account/orders'>click here</a>",
+        "category": "orders&delivery"
+
+    }, {
+        "Q": "<i class='fas fa-plus'></i>&nbsp;&nbsp;What happens if i received the wrong items?",
+        "A": "PLease <a href='mailto:support@shoebox.com'>email</a> us together with the order receipt and we will do a follow-up on it",
+        "category": "orders&delivery"
+    }, {
+        "Q": "<i class='fas fa-plus'></i>&nbsp;&nbsp;What happens if i received the wrong items?",
+        "A": "PLease <a href='mailto:support@shoebox.com'>email</a> us together with the order receipt and we will do a follow-up on it",
+        "category": "orders&delivery"
+    }
+]
