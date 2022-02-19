@@ -91,7 +91,7 @@ def forgetPwd():
         html_content=render_template('customer/forgot-pwd/email_template.html', code=code)
     )
 
-    sg = sendgrid.SendGridAPIClient('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')
+    sg = sendgrid.SendGridAPIClient('SendgridAPIKey')
     sg.send(message)
 
     return {'success': True}
